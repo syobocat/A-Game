@@ -1,18 +1,19 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
     public float speed;
     public float jumpPower;
+    public Text positionText;
+    public JumpController jumpCheck;
 
     Rigidbody rb;
     float moveX = 0f;
     float moveZ = 0f;
     bool jump;
-
-    bool isOnFloor;
 
     // Start is called before the first frame update
     void Start()
@@ -24,9 +25,11 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         jump = Input.GetButtonDown("Jump");
-        if (jump) {
+        bool isOnFloor = jumpCheck.IsOnFloor();
+        if (jump && isOnFloor) {
             rb.AddForce(transform.up * jumpPower, ForceMode.Impulse);
         }
+        positionText.text = $"{transform.position}";
     }
 
     void FixedUpdate(){
